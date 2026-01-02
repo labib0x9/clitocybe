@@ -1,6 +1,6 @@
 # clitocybe
 ---
-
+A simple server framework.
 ---
 # Usage
 - Creating a tcp server binding to all interfaces at port 8080. SListen() abstract socket(), bind(), listen()
@@ -8,6 +8,13 @@
 listener_t ln = SListen("tcp", ":8080");
 if (ln.err != 0) {
     // error
+}
+```
+- Accept clients and astract the fd, address to client_t
+```c
+while(1) {
+    client_t conn = SAccept(ln);
+    // handle conn
 }
 ```
 

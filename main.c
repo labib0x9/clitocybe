@@ -140,7 +140,8 @@ void tcpCreateAndListenIpv4(listener_t* ln) {
     // ln->s_addr.ss_family = AF_INET;
     // ln->s_addr.
     struct sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
+    socklen_t addr_len = sizeof(addr);
+    memset(&addr, 0, addr_len);
     addr.sin_family = AF_INET;
     addr.sin_port = htons(ln->addr.port);
     if (ln->addr.host[0] == '\0') {
@@ -153,10 +154,10 @@ void tcpCreateAndListenIpv4(listener_t* ln) {
             return;
         }
     }
-    memcpy(&(ln->s_addr), &addr, sizeof(addr));
+    memcpy(&(ln->s_addr), &addr, addr_len);
 
     // bind
-    if (bind(ln->fd, (struct sockaddr*) &(ln->s_addr), sizeof(ln->s_addr))== -1) {
+    if (bind(ln->fd, (struct sockaddr*) &(ln->s_addr), addr_len)== -1) {
         perror("bind error");
         ln->err = 5;
         return;
